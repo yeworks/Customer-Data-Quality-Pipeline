@@ -14,7 +14,7 @@ This project aims to build an automated data quality inspection pipeline for e-c
 This script evaluates the dataset based on the DAMA-DMBOK data quality dimensions:
 1. **Completeness:** Identifying missing values (Nulls) in critical fields like Email and Phone.
 2. **Uniqueness:** Detecting and handling duplicate customer profiles.
-3. **Validity:** Validating email formats and UK Postcode structures.
+3. **Validity:** Validating email formats and Regional Postcode structures.
 
 ## Progress & Results
 - [x] Initial Repository & Project Setup
