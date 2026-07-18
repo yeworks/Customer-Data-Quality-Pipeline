@@ -1,0 +1,7 @@
+customer_id,name,email,phone,postcode,last_purchase_item,signup_date
+1001,Sophie Turner,sophie.t@gmail.com,07700900123,E1 6AN,Nintendo Switch OLED,2026-01-15
+1002,Liam Smith,liam_smith,07700900456,SW1A 1AA,Lego Star Wars,2026-02-20
+1003,Emma Jones,,07700900789,W1D 4FA,Monopoly Classic,2026-03-05
+1001,Sophie Turner,sophie.t@gmail.com,07700900123,E1 6AN,Nintendo Switch OLED,2026-01-15
+1004,Noah Brown,noah.b@yahoo.com,,invalid_code,Barbie Dreamhouse,
+1005,Mia Taylor,mia.t@company.co.uk,+447700900321,EC1A 1BB,,2026-06-25
