@@ -18,7 +18,15 @@ This script evaluates the dataset based on the DAMA-DMBOK data quality dimension
 
 ## Progress & Results
 - [x] Initial Repository & Project Setup
-- [ ] Step 1: Data Profiling & Missing Value Detection (In Progress)
+- [x] Step 1: Data Profiling & Missing Value Detection (In Progress)
 - [ ] Step 2: Uniqueness & Duplicate Handling
 - [ ] Step 3: Format Validation (Email & Postcode)
 - [ ] Step 4: Final Data Quality Report Generation
+
+
+## Data Quality Issues Identified (Step 1 Profiling)
+
+During the initial data profiling phase, the following issues were discovered:
+- **Completeness:** The `email`, `phone`, `last_purchase_item`, and `signup_date` columns contain missing values (Nulls).
+- **Uniqueness:** Duplicated rows exist (e.g., multiple identical records for 'Sophie Turner').
+- **Validity:** The `phone` column is incorrectly parsed as `float64` instead of a string due to the presence of Null values, corrupting the phone number format (e.g., losing the leading zero).
