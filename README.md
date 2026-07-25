@@ -30,3 +30,7 @@ During the initial data profiling phase, the following issues were discovered:
 - **Completeness:** The `email`, `phone`, `last_purchase_item`, and `signup_date` columns contain missing values (Nulls).
 - **Uniqueness:** Duplicated rows exist (e.g., multiple identical records for 'Sophie Turner').
 - **Validity:** The `phone` column is incorrectly parsed as `float64` instead of a string due to the presence of Null values, corrupting the phone number format (e.g., losing the leading zero).
+
+## Data Stewardship Principles Applied (Step 2 Cleaning)
+
+- **Raw Data Protection (SSOT):** The original dataset (`messy_customers.csv`) remains completely untouched to preserve the Single Source of Truth (SSOT). All cleaning tasks are performed on an isolated memory copy (`df_cleaned` via `.copy()`), guaranteeing zero risk of raw data corruption.
