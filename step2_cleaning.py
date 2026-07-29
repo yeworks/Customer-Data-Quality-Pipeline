@@ -2,7 +2,7 @@ import pandas as pd
 
 df = pd.read_csv("messy_customers.csv")
 
-# - Step 2: Uniqueness & Missing Values -
+# -- Step 2: Uniqueness & Missing Values --
 
 # Remove exact duplicate rows
 df_cleaned = df.drop_duplicates().copy()
