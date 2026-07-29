@@ -33,4 +33,8 @@ During the initial data profiling phase, the following issues were discovered:
 
 ## Data Stewardship Principles Applied (Step 2 Cleaning)
 
+During the Step 2 cleaning process, the following technical strategies were implemented to resolve data quality issues:
 - **Raw Data Protection (SSOT):** The original dataset (`messy_customers.csv`) remains completely untouched to preserve the Single Source of Truth (SSOT). All cleaning tasks are performed on an isolated memory copy (`df_cleaned` via `.copy()`), guaranteeing zero risk of raw data corruption.
+- **Targeted Missing Value Imputation:** Applied specific imputation strategies based on the context of each column, such as placeholder dates (`1900-01-01`) for `signup_date` and generic strings (`no_email@provided.com`, `Unknown`) to maintain data completeness without distorting facts.
+- **Data Type Correction:** Resolved the `float64` corruption in the `phone` column. By temporarily filling Nulls with zeros, casting the column to integers (to remove decimal artifacts), and subsequently converting it to strings, the original structural integrity was recovered.
+- **Conditional Formatting Recovery:** Utilized Pandas `.apply()` combined with `lambda` functions to dynamically evaluate and restore missing leading zeros (`0`) for valid phone numbers, while preserving the structural tags for missing data.
