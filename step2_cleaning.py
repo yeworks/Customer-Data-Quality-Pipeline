@@ -33,3 +33,6 @@ print(df_cleaned.isnull().sum())
 
 print("\n--- [Cleaned Data Preview] ---")
 print(df_cleaned[['name', 'phone', 'email', 'signup_date']])
+
+# Save the cleaned data for Step 3
+df_cleaned.to_csv("step2_cleaned.csv", index=False)
