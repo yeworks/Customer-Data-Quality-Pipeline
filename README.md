@@ -38,3 +38,10 @@ During the Step 2 cleaning process, the following technical strategies were impl
 - **Targeted Missing Value Imputation:** Applied specific imputation strategies based on the context of each column, such as placeholder dates (`1900-01-01`) for `signup_date` and generic strings (`no_email@provided.com`, `Unknown`) to maintain data completeness without distorting facts.
 - **Data Type Correction:** Resolved the `float64` corruption in the `phone` column. By temporarily filling Nulls with zeros, casting the column to integers (to remove decimal artifacts), and subsequently converting it to strings, the original structural integrity was recovered.
 - **Conditional Formatting Recovery:** Utilized Pandas `.apply()` combined with `lambda` functions to dynamically evaluate and restore missing leading zeros (`0`) for valid phone numbers, while preserving the structural tags for missing data.
+
+## Format Validation & Standardization (Step 3 - Part 1)
+
+During the initial phase of Step 3, the following issues were discovered:
+
+- **Regex-based Format Validation:** Implemented Regular Expressions (`re`) to create a strict validation pattern for email addresses (`r'^[\w\.-]+@[\w\.-]+\.\w+$'`). 
+- **Conditional Rule Application:** Configured a custom validation function to verify existing emails against the Regex pattern. Emails failing the structural test were flagged and replaced with a standardized error placeholder (`invalid_format@provided.com`), ensuring that downstream systems only process structurally sound contact data without corrupting the previously resolved missing values.
