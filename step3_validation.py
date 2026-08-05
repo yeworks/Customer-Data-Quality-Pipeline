@@ -23,3 +23,10 @@ def validate_email(email):
 
 # Apply the validation rule to the email column
 df['email'] = df['email'].apply(validate_email)
+
+# Postcode Standardization
+# Remove all spaces and convert to UPPERCASE
+df['postcode'] = df['postcode'].str.replace(' ', '').str.upper()
+
+print("\n--- [Cleaned Data Preview (Email & Postcode)] ---")
+print(df[['name', 'email', 'postcode']])
