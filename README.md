@@ -47,3 +47,8 @@ During the initial data profiling phase, the following issues were discovered:
 ## Data Deduplication (Step 4 deduplication)
 
 - **Identity Resolution:** Removed duplicate customer records by utilizing a composite key of `name` and `phone` columns. Retained the first occurrence to maintain data integrity and prevent false merges of shared contact details.
+
+## Data Type & Category Standardization (Step 5)
+
+- **Date Formatting:** Converted date strings to the ISO 8601 standard (`YYYY-MM-DD`) using `pd.to_datetime()`.
+- **Category Normalization:** Applied Title Case to status categories to ensure consistent grouping and aggregation.
