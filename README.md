@@ -52,3 +52,7 @@ During the initial data profiling phase, the following issues were discovered:
 
 - **Date Formatting:** Converted date strings to the ISO 8601 standard (`YYYY-MM-DD`) using `pd.to_datetime()`.
 - **Category Normalization:** Applied Title Case to status categories to ensure consistent grouping and aggregation.
+
+## Business Rule Validation (Step 6)
+
+- **Numeric Outlier Handling:** Corrected logical anomalies such as negative values in age and spending columns to ensure business rule compliance.
