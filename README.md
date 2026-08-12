@@ -1,6 +1,4 @@
-# Customer-Data-Quality-Pipeline
-
-# Automated Data Quality Assessment Pipeline
+# Customer Data Quality Pipeline (Part 1)
 
 ## Project Goal
 This project aims to build an automated data quality inspection pipeline for e-commerce customer data using **Python (Pandas)** and **SQL**. As a Data Steward, the goal is to identify and resolve data integrity issues that negatively impact marketing campaigns (e.g., high email bounce rates, duplicate coupon distributions).
@@ -8,51 +6,42 @@ This project aims to build an automated data quality inspection pipeline for e-c
 ## Tech Stack
 - **Language:** Python 3
 - **Libraries:** Pandas
+- **Database:** SQLite
 - **Data Source:** Messy E-commerce Customer Data (CSV)
 
-## Data Quality Dimensions Addressed
-This script evaluates the dataset based on the DAMA-DMBOK data quality dimensions:
-1. **Completeness:** Identifying missing values (Nulls) in critical fields like Email and Phone.
+## Data Quality Dimensions Addressed (DAMA-DMBOK)
+This script evaluates the dataset based on the core data quality dimensions:
+1. **Completeness:** Identifying and imputing missing values (Nulls) in critical fields.
 2. **Uniqueness:** Detecting and handling duplicate customer profiles.
-3. **Validity:** Validating email formats and Regional Postcode structures.
+3. **Validity:** Validating formats (Email, Postcode) and business rules.
 
-## Progress & Results
-- [x] Initial Repository & Project Setup
-- [x] Step 1: Data Profiling & Missing Value Detection (In Progress)
-- [ ] Step 2: Uniqueness & Duplicate Handling
-- [ ] Step 3: Format Validation (Email & Postcode)
-- [ ] Step 4: Final Data Quality Report Generation
+---
 
+## Data Quality Pipeline Execution
 
-## Data Quality Issues Identified (Step 1 Profiling)
+### Step 1: Data Profiling (Issues Identified)
+- **Completeness:** The `email`, `phone`, `last_purchase_item`, and `signup_date` columns contain missing values.
+- **Uniqueness:** Duplicated rows exist (e.g., multiple identical records for the same customer).
+- **Validity:** The `phone` column is incorrectly parsed as `float64` instead of a string due to Null values, corrupting the format (losing leading zeros).
 
-During the initial data profiling phase, the following issues were discovered:
-- **Completeness:** The `email`, `phone`, `last_purchase_item`, and `signup_date` columns contain missing values (Nulls).
-- **Uniqueness:** Duplicated rows exist (e.g., multiple identical records for 'Sophie Turner').
-- **Validity:** The `phone` column is incorrectly parsed as `float64` instead of a string due to the presence of Null values, corrupting the phone number format (e.g., losing the leading zero).
+### Step 2: Data Cleansing & Missing Value Imputation
+- **Raw Data Protection (SSOT):** The original dataset remains untouched. All cleaning tasks are performed on an isolated memory copy (`df.copy()`), guaranteeing zero risk of raw data corruption.
+- **Targeted Imputation:** Applied specific strategies based on context (e.g., `1900-01-01` for dates, `no_email@provided.com` for text) to maintain completeness without distorting facts.
+- **Data Type Correction:** Resolved the `float64` corruption in the `phone` column by casting to integers and converting to strings, successfully recovering the original structural integrity and restoring missing leading zeros (`0`).
 
-## Data Stewardship Principles Applied (Step 2 Cleaning)
+### Step 3: Format Validation & Standardization
+- **Regex-based Validation:** Implemented Regular Expressions to create a strict validation pattern for email addresses. Emails failing the structural test were replaced with `invalid_format@provided.com`.
+- **Postcode Standardization:** Removed whitespaces and converted to uppercase to ensure formatting consistency.
 
-- **Raw Data Protection (SSOT):** The original dataset (`messy_customers.csv`) remains completely untouched to preserve the Single Source of Truth (SSOT). All cleaning tasks are performed on an isolated memory copy (`df_cleaned` via `.copy()`), guaranteeing zero risk of raw data corruption.
-- **Targeted Missing Value Imputation:** Applied specific imputation strategies based on the context of each column, such as placeholder dates (`1900-01-01`) for `signup_date` and generic strings (`no_email@provided.com`, `Unknown`) to maintain data completeness without distorting facts.
-- **Data Type Correction:** Resolved the `float64` corruption in the `phone` column. By temporarily filling Nulls with zeros, casting the column to integers (to remove decimal artifacts), and subsequently converting it to strings, the original structural integrity was recovered.
-- **Conditional Formatting Recovery:** Utilized Pandas `.apply()` combined with `lambda` functions to dynamically evaluate and restore missing leading zeros (`0`) for valid phone numbers, while preserving the structural tags for missing data.
+### Step 4: Data Deduplication
+- **Identity Resolution:** Removed duplicate customer records utilizing a composite key of `name` and `phone` columns. Retained the first occurrence to prevent false merges of shared contact details.
 
-## Format Validation & Standardization (Step 3 Validation)
-
-- **Regex-based Format Validation:** Implemented Regular Expressions (`re`) to create a strict validation pattern for email addresses (`r'^[\w\.-]+@[\w\.-]+\.\w+$'`). 
-- **Conditional Rule Application:** Configured a custom validation function to verify existing emails against the Regex pattern. Emails failing the structural test were flagged and replaced with a standardized error placeholder (`invalid_format@provided.com`), ensuring that downstream systems only process structurally sound contact data without corrupting the previously resolved missing values.
-- **Postcode Standardization:** Removed spaces and converted to uppercase to ensure formatting consistency.
-
-## Data Deduplication (Step 4 deduplication)
-
-- **Identity Resolution:** Removed duplicate customer records by utilizing a composite key of `name` and `phone` columns. Retained the first occurrence to maintain data integrity and prevent false merges of shared contact details.
-
-## Data Type & Category Standardization (Step 5)
-
+### Step 5: Data Type & Category Standardization
 - **Date Formatting:** Converted date strings to the ISO 8601 standard (`YYYY-MM-DD`) using `pd.to_datetime()`.
 - **Category Normalization:** Applied Title Case to status categories to ensure consistent grouping and aggregation.
 
-## Business Rule Validation (Step 6)
+### Step 6: Business Rule Validation
+- **Numeric Outlier Handling:** Corrected logical anomalies violating business rules, such as converting negative age inputs to absolute values and resetting invalid negative spending amounts to zero.
 
-- **Numeric Outlier Handling:** Corrected logical anomalies such as negative values in age and spending columns to ensure business rule compliance.
+### Step 7: Load to Database
+- **SQL Integration:** Loaded the finalized, golden record dataset into an SQLite database (`customer_master.db`) using Pandas `.to_sql()` for downstream SQL querying and analytics.
