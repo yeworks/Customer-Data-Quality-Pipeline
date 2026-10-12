@@ -5,7 +5,7 @@ This project aims to build an automated data quality inspection pipeline for e-c
 
 ## Tech Stack
 - **Language:** Python 3
-- **Libraries:** Pandas
+- **Libraries:** Pandas, Faker
 - **Database:** SQLite
 - **Data Source:** Messy E-commerce Customer Data (CSV)
 
