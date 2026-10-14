@@ -45,3 +45,7 @@ This script evaluates the dataset based on the core data quality dimensions:
 
 ### Step 7: Load to Database
 - **SQL Integration:** Loaded the finalized, golden record dataset into an SQLite database (`customer_master.db`) using Pandas `.to_sql()` for downstream SQL querying and analytics.
+
+
+# Customer Data Quality Pipeline (Part 2)
+- [ ] Part 2: Tableau Dashboard (In Progress)
