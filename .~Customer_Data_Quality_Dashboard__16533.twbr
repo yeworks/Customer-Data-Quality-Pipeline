@@ -188,7 +188,29 @@
       <column caption='Signup Date' datatype='date' name='[signup_date]' role='dimension' type='ordinal' />
       <column caption='Status' datatype='string' name='[status]' role='dimension' type='nominal' />
       <column caption='Total Spent' datatype='real' name='[total_spent]' role='measure' type='quantitative' />
+      <column-instance column='[status]' derivation='None' name='[none:status:nk]' pivot='key' type='nominal' />
       <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:status:nk]' palette='miller_stone_10_0' type='palette'>
+            <map to='#4f6980'>
+              <bucket>&quot;active&quot;</bucket>
+            </map>
+            <map to='#638b66'>
+              <bucket>&quot;V.I.P&quot;</bucket>
+            </map>
+            <map to='#849db1'>
+              <bucket>&quot;ACTIVE&quot;</bucket>
+            </map>
+            <map to='#a2ceaa'>
+              <bucket>&quot;inactive&quot;</bucket>
+            </map>
+            <map to='#bfbb60'>
+              <bucket>&quot;vip&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
       <semantic-values>
         <semantic-value key='[Country].[Name]' value='&quot;미국&quot;' />
       </semantic-values>
@@ -239,7 +261,17 @@
             <encodings>
               <text column='[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[__tableau_internal_object_id__].[cnt:messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA:qk]' />
             </encodings>
+            <customized-label>
+              <formatted-text>
+                <run bold='true' fontcolor='#b6992d' fontsize='28'><![CDATA[<[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[__tableau_internal_object_id__].[cnt:messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA:qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#898989' fontname='Menlo' fontsize='12'>Total Ingested Records</run>
+              </formatted-text>
+            </customized-label>
             <style>
+              <style-rule element='cell'>
+                <format attr='text-align' value='center' />
+              </style-rule>
               <style-rule element='mark'>
                 <format attr='mark-labels-show' value='true' />
               </style-rule>
@@ -272,6 +304,9 @@
               <breakdown value='auto' />
             </view>
             <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[none:status:nk]' />
+            </encodings>
             <style>
               <style-rule element='mark'>
                 <format attr='mark-color' value='#86bcb6' />
@@ -288,7 +323,7 @@
     </worksheet>
   </worksheets>
   <windows source-height='30'>
-    <window class='worksheet' name='KPI_Total_Ingested'>
+    <window class='worksheet' maximized='true' name='KPI_Total_Ingested'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -303,15 +338,12 @@
           </strip>
           <strip size='2147483647'>
             <card type='rows' />
-          </strip>
-          <strip size='31'>
-            <card type='title' />
           </strip>
         </edge>
       </cards>
       <simple-id uuid='{DDA9C44C-8433-45A3-82F8-C2E0D29D2D1D}' />
     </window>
-    <window class='worksheet' maximized='true' name='Status_Distribution'>
+    <window class='worksheet' name='Status_Distribution'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -329,6 +361,11 @@
           </strip>
           <strip size='31'>
             <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[none:status:nk]' type='color' />
           </strip>
         </edge>
       </cards>
