@@ -9,6 +9,7 @@
     <ObjectModelTableType />
     <SchemaViewerObjectModel />
     <SheetIdentifierTracking />
+    <SortTagCleanup />
     <WindowsPersistSimpleIdentifiers />
     <_.fcp.WorkbookFingerprinting.true...WorkbookFingerprinting />
   </document-format-change-manifest>
@@ -178,6 +179,15 @@
         </metadata-records>
       </connection>
       <aliases enabled='yes' />
+      <column caption='Null_Email' datatype='integer' name='[Calculation_1136197759574016]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='SUM(IF ISNULL([email]) THEN 1 ELSE 0 END)' />
+      </column>
+      <column caption='Null_Phone' datatype='integer' name='[Calculation_1136197760069633]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='SUM(IF ISNULL([phone]) THEN 1 ELSE 0 END)' />
+      </column>
+      <column caption='Null_Postcode' datatype='integer' name='[Calculation_1136197760135170]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='SUM(IF ISNULL([postcode]) THEN 1 ELSE 0 END)' />
+      </column>
       <column caption='messy_customers.csv' datatype='table' name='[__tableau_internal_object_id__].[messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA]' role='measure' type='quantitative' />
       <column caption='Age' datatype='integer' name='[age]' role='measure' type='quantitative' />
       <column caption='Email' datatype='string' name='[email]' role='dimension' type='nominal' />
@@ -283,6 +293,75 @@
       </table>
       <simple-id uuid='{2805E061-5CE6-46DD-B799-0C6D5B893890}' />
     </worksheet>
+    <worksheet name='Null_Count_by_Column'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='messy_customers' name='federated.0uz3ucu18ogvud15ak3ip16a9wnh' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0uz3ucu18ogvud15ak3ip16a9wnh'>
+            <column caption='Null_Email' datatype='integer' name='[Calculation_1136197759574016]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='SUM(IF ISNULL([email]) THEN 1 ELSE 0 END)' />
+            </column>
+            <column caption='Null_Phone' datatype='integer' name='[Calculation_1136197760069633]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='SUM(IF ISNULL([phone]) THEN 1 ELSE 0 END)' />
+            </column>
+            <column caption='Null_Postcode' datatype='integer' name='[Calculation_1136197760135170]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='SUM(IF ISNULL([postcode]) THEN 1 ELSE 0 END)' />
+            </column>
+            <column-instance column='[__tableau_internal_object_id__].[messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA:qk]' pivot='key' type='quantitative' />
+            <column caption='messy_customers.csv' datatype='table' name='[__tableau_internal_object_id__].[messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA]' role='measure' type='quantitative' />
+            <column caption='Age' datatype='integer' name='[age]' role='measure' type='quantitative' />
+            <column caption='Email' datatype='string' name='[email]' role='dimension' type='nominal' />
+            <column caption='Phone' datatype='real' name='[phone]' role='measure' type='quantitative' />
+            <column aggregation='Sum' caption='Postcode' datatype='integer' default-format='*00000' name='[postcode]' role='dimension' semantic-role='[ZipCode].[Name]' type='ordinal' />
+            <column-instance column='[age]' derivation='Sum' name='[sum:age:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[phone]' derivation='Sum' name='[sum:phone:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1136197759574016]' derivation='User' name='[usr:Calculation_1136197759574016:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1136197760069633]' derivation='User' name='[usr:Calculation_1136197760069633:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1136197760135170]' derivation='User' name='[usr:Calculation_1136197760135170:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[usr:Calculation_1136197759574016:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[usr:Calculation_1136197760069633:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[usr:Calculation_1136197760135170:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <manual-sort column='[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[:Measure Names]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[sum:age:qk]&quot;</bucket>
+              <bucket>&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[sum:phone:qk]&quot;</bucket>
+              <bucket>&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[__tableau_internal_object_id__].[cnt:messy_customers.csv_3BE904EFC26C4955965BB735985CC6CA:qk]&quot;</bucket>
+              <bucket>&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[usr:Calculation_1136197759574016:qk]&quot;</bucket>
+              <bucket>&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[usr:Calculation_1136197760069633:qk]&quot;</bucket>
+              <bucket>&quot;[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[usr:Calculation_1136197760135170:qk]&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <slices>
+            <column>[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[:Measure Names]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='3' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-color' value='#b07aa1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[:Measure Names]</rows>
+        <cols>[federated.0uz3ucu18ogvud15ak3ip16a9wnh].[Multiple Values]</cols>
+      </table>
+      <simple-id uuid='{7A228CA4-C08F-4098-B05F-652E2E658CC7}' />
+    </worksheet>
     <worksheet name='Status_Distribution'>
       <table>
         <view>
@@ -323,7 +402,7 @@
     </worksheet>
   </worksheets>
   <windows source-height='30'>
-    <window class='worksheet' maximized='true' name='KPI_Total_Ingested'>
+    <window class='worksheet' name='KPI_Total_Ingested'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -341,9 +420,12 @@
           </strip>
         </edge>
       </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+      </viewpoint>
       <simple-id uuid='{DDA9C44C-8433-45A3-82F8-C2E0D29D2D1D}' />
     </window>
-    <window class='worksheet' name='Status_Distribution'>
+    <window class='worksheet' maximized='true' name='Status_Distribution'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -370,6 +452,30 @@
         </edge>
       </cards>
       <simple-id uuid='{4DE97E72-87F9-400C-ADCF-E2E859FC8F3F}' />
+    </window>
+    <window class='worksheet' name='Null_Count_by_Column'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{6A780A78-85B1-439F-B8CA-C139F1C3FBE5}' />
     </window>
   </windows>
 </workbook>
