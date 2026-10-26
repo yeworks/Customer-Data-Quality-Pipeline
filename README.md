@@ -46,6 +46,21 @@ This script evaluates the dataset based on the core data quality dimensions:
 ### Step 7: Load to Database
 - **SQL Integration:** Loaded the finalized, golden record dataset into an SQLite database (`customer_master.db`) using Pandas `.to_sql()` for downstream SQL querying and analytics.
 
+--
 
-# Customer Data Quality Pipeline (Part 2)
-- [ ] Part 2: Tableau Dashboard (In Progress)
+## Part 2: Data Quality Diagnostic Dashboard (Tableau)
+
+### Dashboard Overview
+- **Tool:** Tableau Desktop (`.twbx`)
+- **Purpose:** Visualizes data quality diagnosis results from the pipeline, translating raw data defects into clear operational insights.
+
+### Key Visualizations & Metrics
+1. **Total Ingestion Volume (KPI Card):** Establishes the baseline dataset scope (`1,050 records`).
+2. **Status Standardization Analysis:** Bar chart exposing text fragmentation and formatting inconsistencies (mixed casing like `active` vs `ACTIVE` and `V.I.P` vs `vip`), proving the necessity of standardization.
+3. **Column-Level Null Analysis:** Utilizes custom calculated fields (`IF ISNULL(...) THEN 1 ELSE 0 END`) to isolate missing values, demonstrating that data quality defects are heavily concentrated in contact channels (`Email`, `Phone`) rather than mandatory fields (`Postcode`).
+
+---
+
+## How to Run
+1. Run the Python pipeline script to generate the cleaned SQLite database (`customer_master.db`).
+2. Open `Customer_Data_Quality_Dashboard.twbx` in Tableau to explore the diagnostic dashboard.
