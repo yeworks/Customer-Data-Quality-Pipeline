@@ -16,9 +16,11 @@ df_cleaned['last_purchase_item'] = df_cleaned['last_purchase_item'].fillna('Unkn
 print("\n--- [Updated Missing Values Count] ---")
 print(df_cleaned.isnull().sum())
 
-# Handle remaining missing values (email, signup_date)
-df_cleaned['email'] = df_cleaned['email'].fillna('no_email@provided.com')
-df_cleaned['signup_date'] = df_cleaned['signup_date'].fillna('1900-01-01') # Default placeholder date
+# Handle missing values: Keep NULLs and add tracking flags (Avoid Data Distortion)
+df_cleaned['is_missing_email'] = df_cleaned['email'].isnull()
+df_cleaned['is_missing_signup_date'] = df_cleaned['signup_date'].isnull()
+# Note: We do NOT impute artificial values like 'no_email@provided.com' or '1900-01-01' 
+# to preserve the absolute truth of the raw data. NULLs are kept intentionally.
 
 # Fix 'phone' data type and format
 # Fill NaN with 0, convert to int (to drop the float '.0'), then to string
