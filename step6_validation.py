@@ -3,28 +3,24 @@ import pandas as pd
 # 1. Load the standardized data from Step 5
 df = pd.read_csv("step5_standardized.csv")
 
-print("--- [Step 6: Business Rule Validation Started] ---")
+print("--- [Step 6: Business Rule Validation & Quarantine Started] ---")
 
-# 2. Check for logical errors in numeric columns (e.g., age)
-if 'age' in df.columns:
-    # Filtering abnormal data where age is less than 0
-    invalid_age = df[df['age'] < 0]
-    print(f" Negative age records found: {len(invalid_age)}")
-    
-    # Assume a typing error (entering -25 instead of 25) and force conversion to the absolute value.
-    df['age'] = df['age'].abs()
-    print(" Negative ages successfully converted to positive (Absolute value).")
+# 2. Define business rule violation conditions (Avoid Data Distortion)
+# Instead of distorting data with .abs() or resetting values to 0, 
+# we isolate rows violating critical business rules (negative age or negative spending).
+quarantine_mask = (df['age'] < 0) | (df['total_spent'] < 0)
 
-# 3. Check for invalid prices or spending (e.g., total_spent)
-if 'total_spent' in df.columns:
-    invalid_spend = df[df['total_spent'] < 0]
-    print(f" Negative spending records found: {len(invalid_spend)}")
-    
-    # Negative purchase amounts may indicate issues such as refunds, 
-    # but for the sake of analysis, they are uniformly reset to 0 (or can be treated as missing values).
-    df.loc[df['total_spent'] < 0, 'total_spent'] = 0
-    print(" Negative spending successfully reset to 0.")
+# 3. Isolate invalid records into a quarantine dataframe for auditing
+df_quarantine = df[quarantine_mask].copy()
+df_quarantine['quarantine_reason'] = 'Invalid Business Rule (Negative Age or Total Spent)'
+print(f" Quarantined records isolated: {len(df_quarantine)}")
 
-# 4. Export the finalized validated data
-df.to_csv("step6_validated.csv", index=False)
-print("\n step6_validated.csv successfully saved.")
+# 4. Keep only clean records for the main pipeline (Golden Records)
+df_clean = df[~quarantine_mask].copy()
+print(f" Clean records retained: {len(df_clean)}")
+
+# 5. Export both finalized datasets (Validated main data & Quarantine data)
+df_clean.to_csv("step6_validated.csv", index=False)
+df_quarantine.to_csv("step6_quarantine.csv", index=False)
+
+print("\n step6_validated.csv and step6_quarantine.csv successfully saved.")
